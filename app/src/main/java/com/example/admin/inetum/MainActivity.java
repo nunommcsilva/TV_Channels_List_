@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -21,10 +22,16 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class MainActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
-    List<Channel> channels;
+    JSONPlaceholder jsonPlaceholder;
+    //    List<Channel> channels;
     private static final String JSON_URL =
             "http://ott.online.meo.pt/catalog/v9/Channels?UserAgent=AND&$filter=substringof(%27MEO_Mobile%27,AvailableOnChannels) and IsAdult eq false&$orderby=ChannelPosition asc&$inlinecount=allpages";
     Adapter adapter;
@@ -35,11 +42,45 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         recyclerView = findViewById(R.id.channelsList);
-        channels = new ArrayList<>();
-        extractChannels();
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        channels = new ArrayList<>();
+//        extractChannels();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://ott.online.meo.pt/Catalog/v9/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        jsonPlaceholder = retrofit.create(JSONPlaceholder.class);
+
+        getChannel();
+
     }
 
 
+    private void getChannel() {
+        Call<List<Channel>> call = jsonPlaceholder.getChannel();
+        call.enqueue(new Callback<List<Channel>>() {
+            @Override
+            public void onResponse(Call<List<Channel>> call, retrofit2.Response<List<Channel>> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(MainActivity.this, response.code(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                List<Channel> channelList = response.body();
+                ChannelAdapter channelAdapter = new ChannelAdapter(MainActivity.this, channelList);
+                recyclerView.setAdapter(channelAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<List<Channel>> call, Throwable t) {
+                Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+/*
     private void extractChannels() {
         RequestQueue queue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, JSON_URL,
@@ -75,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
         });
         queue.add(jsonObjectRequest);
     }
+*/
 
     private CurrentProgram getNowAndNext(String channelTitle) {
         CurrentProgram currentProgram = new CurrentProgram();
