@@ -9,6 +9,10 @@ public class CurrentProgram {
     public CurrentProgram() {
     }
 
+    public CurrentProgram(String programTitle) {
+        this.programTitle = programTitle;
+    }
+
     public String getProgramTitle() {
         return programTitle;
     }

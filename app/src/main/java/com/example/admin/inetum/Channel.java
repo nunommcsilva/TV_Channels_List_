@@ -1,6 +1,8 @@
 package com.example.admin.inetum;
 
-public class Channel {
+import org.json.JSONObject;
+
+public class Channel extends JSONObject {
 
     private String title;
     private CurrentProgram currentProgram;
