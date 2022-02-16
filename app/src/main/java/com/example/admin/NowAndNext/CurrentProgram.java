@@ -1,16 +1,12 @@
-package com.example.admin.inetum;
+package com.example.admin.NowAndNext;
 
 public class CurrentProgram {
 
     private String programTitle;
-    private String synopsis;
+    private String nextProgramTitle;
     private String coverImageURL;
 
     public CurrentProgram() {
-    }
-
-    public CurrentProgram(String programTitle) {
-        this.programTitle = programTitle;
     }
 
     public String getProgramTitle() {
@@ -21,12 +17,12 @@ public class CurrentProgram {
         this.programTitle = programTitle;
     }
 
-    public String getSynopsis() {
-        return synopsis;
+    public String getNextProgramTitle() {
+        return nextProgramTitle;
     }
 
-    public void setSynopsis(String synopsis) {
-        this.synopsis = synopsis;
+    public void setNextProgramTitle(String nextProgramTitle) {
+        this.nextProgramTitle = nextProgramTitle;
     }
 
     public String getCoverImageURL() {
@@ -35,6 +31,14 @@ public class CurrentProgram {
 
     public void setCoverImageURL(String coverImageURL) {
         this.coverImageURL = coverImageURL;
+    }
+
+    @Override
+    public String toString() {
+        return "CurrentProgram{" +
+                "programTitle='" + programTitle + '\'' +
+                ", coverImageURL='" + coverImageURL + '\'' +
+                '}';
     }
 }
 

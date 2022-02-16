@@ -1,17 +1,11 @@
-package com.example.admin.inetum;
+package com.example.admin.NowAndNext;
 
-import org.json.JSONObject;
-
-public class Channel extends JSONObject {
+public class Channel {
 
     private String title;
     private CurrentProgram currentProgram;
 
     public Channel() {
-    }
-
-    public Channel(String title) {
-        this.title = title;
     }
 
     public String getTitle() {
@@ -26,5 +20,8 @@ public class Channel extends JSONObject {
         return currentProgram;
     }
 
+    public void setCurrentProgram(CurrentProgram currentProgram) {
+        this.currentProgram = currentProgram;
+    }
 }
 

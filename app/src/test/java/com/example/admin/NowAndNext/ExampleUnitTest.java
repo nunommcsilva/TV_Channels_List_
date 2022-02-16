@@ -1,4 +1,4 @@
-package com.example.admin.inetum;
+package com.example.admin.NowAndNext;
 
 import org.junit.Test;
 
